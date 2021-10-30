@@ -10,7 +10,7 @@ mongoose.connect('mongodb://localhost/restaurant_list')
 
 const db = mongoose.connection
 
-db.on('errer', () => {
+db.on('error', () => {
   console.log('mongodb error!')
 })
 
