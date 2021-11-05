@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const Restaurant = require('./models/restaurant')
 const restaurantList = require('./restaurant')
+const restaurant = require('./models/restaurant')
 
 const app = express()
 const port = 3000
@@ -48,8 +49,13 @@ app.get('/search', (req, res) => {
   res.render('index', { restaurants: restaurants, keyword })
 })
 
-app.get('/:restaurant_id', (req, res) => {
-  const restaurant = restaurantList.results.find(restaurant => restaurant.id.toString() === req.params.restaurant_id)
+app.get('/restaurants/:id', (req, res) => {
+  // const restaurant = restaurantList.results.find(restaurant => restaurant.id.toString() === req.params.restaurant_id)
+  const id = req.params.id
+  return Restaurant.findById(id)
+    .lean()
+    .then((restaurant) => res.render('show', { restaurant }))
+    .catch(error => console.log(error))
 
   res.render('show', { restaurant: restaurant })
 })
