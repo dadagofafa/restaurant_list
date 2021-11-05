@@ -32,6 +32,10 @@ app.get('/', (req, res) => {
     .catch(error => console.log(error))
 })
 
+app.get('/restaurants/new', (req, res) => {
+  res.render('new')
+})
+
 app.get('/search', (req, res) => {
   if (!req.query.keywords) {
     res.redirect('/')
