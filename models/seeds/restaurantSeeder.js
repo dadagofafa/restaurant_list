@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const Restaurant = require('../restaurant')
-const restaurantList = require('../../restaurant.json').results
+const Restaurant = require('../Restaurant')
+const restaurantList = require('../../restaurants.json').results
 
 mongoose.connect('mongodb://localhost/restaurant_list')
 
