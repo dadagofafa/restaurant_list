@@ -3,9 +3,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
-const Restaurant = require('./models/restaurant')
-const restaurantList = require('./restaurant')
-const restaurant = require('./models/restaurant')
+const Restaurant = require('./models/Restaurant')
+const restaurantList = require('./restaurants')
 
 const app = express()
 const port = 3000
@@ -52,7 +51,7 @@ app.get('/search', (req, res) => {
 
   const keyword = req.query.keywords
   const restaurants = restaurantList.results.filter(restaurant => {
-    return restaurant.name.toLowerCase().includes(keyword.toLowerCase()) || restaurant.category.includes(keyword)
+    return restaurant.name.toLowerCase().includes(keyword.toLowerCase()) || restaurant.category.toLowerCase().includes(keyword)
   })
   res.render('index', { restaurants: restaurants, keyword })
 })
@@ -75,12 +74,7 @@ app.get('/restaurants/:id/edit', (req, res) => {
 
 app.post('/restaurants/:id/edit', (req, res) => {
   const id = req.params.id
-  const name = req.body.name
-  return Restaurant.findById(id)
-    .then(restaurant => {
-      restaurant.name = name
-      return restaurant.save()
-    })
+  Restaurant.findByIdAndUpdate(id, req.body)
     .then(() => res.redirect(`/restaurants/${id}`))
     .catch(error => console.log(error))
 })
